@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #f3f4f6;
+            --bg-nav: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
+        }
+        nav {
+            background-color: var(--bg-nav);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .max-w-7xl {
+            max-width: 80rem;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            height: 4rem;
+        }
+        .nav-left, .nav-right {
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-right: 2rem;
+        }
+        .logo svg { width: 32px; height: 32px; fill: #ef4444; }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            height: 100%;
+        }
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0 0.25rem;
+            border-bottom: 2px solid #6366f1; /* active state border */
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #111827;
+            text-decoration: none;
+        }
+        .user-dropdown {
+            display: flex;
+            align-items: center;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            gap: 1rem;
+        }
+        .logout-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .logout-btn:hover { color: #111827; }
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        .header-content {
+            padding: 1.5rem 1rem;
+        }
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            line-height: 1.2;
+        }
+        main { padding: 3rem 1rem; }
+        .card {
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .card-body { padding: 1.5rem; }
+        .welcome-text { margin-bottom: 1.5rem; color: #374151; font-size: 1rem; }
+        
+        .profile-info {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+        }
+        @media (min-width: 640px) {
+            .profile-info { grid-template-columns: repeat(2, 1fr); }
+        }
+        .info-group {
+            margin-bottom: 1rem;
+        }
+        .info-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+        .info-value {
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="max-w-7xl nav-content">
+            <div class="nav-left">
+                <div class="logo">
+                    <svg viewBox="0 0 316 316" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M305.8 81.125C305.77 80.995 305.69 80.885 305.65 80.755C305.56 80.525 305.49 80.285 305.34 80.075C305.29 80.005 305.2 79.985 305.14 79.915C305.02 79.775 304.93 79.615 304.78 79.495C304.66 79.395 304.51 79.355 304.38 79.275C304.14 79.115 303.87 79.035 303.61 78.915C303.49 78.865 303.39 78.775 303.26 78.735L160.26 15.735C158.98 15.175 157.49 15.175 156.21 15.735L13.21 78.735C13.08 78.775 12.98 78.865 12.86 78.915C12.6 79.035 12.33 79.115 12.09 79.275C11.96 79.355 11.81 79.395 11.69 79.495C11.54 79.615 11.45 79.775 11.33 79.915C11.27 79.985 11.18 80.005 11.13 80.075C10.98 80.285 10.91 80.525 10.82 80.755C10.78 80.885 10.7 80.995 10.67 81.125C10.6 81.385 10.57 81.635 10.57 81.905V234.095C10.57 234.365 10.6 234.615 10.67 234.875C10.7 235.005 10.78 235.115 10.82 235.245C10.91 235.475 10.98 235.715 11.13 235.925C11.18 235.995 11.27 236.015 11.33 236.085C11.45 236.225 11.54 236.385 11.69 236.505C11.81 236.605 11.96 236.645 12.09 236.725C12.33 236.885 12.6 236.965 12.86 237.085C12.98 237.135 13.08 237.225 13.21 237.265L156.21 300.265C156.85 300.545 157.54 300.685 158.23 300.685C158.92 300.685 159.61 300.545 160.25 300.265L303.25 237.265C303.38 237.225 303.48 237.135 303.6 237.085C303.86 236.965 304.13 236.885 304.37 236.725C304.5 236.645 304.65 236.605 304.77 236.505C304.92 236.385 305.01 236.225 305.13 236.085C305.19 236.015 305.28 235.995 305.33 235.925C305.48 235.715 305.55 235.475 305.64 235.245C305.68 235.115 305.76 235.005 305.79 234.875C305.86 234.615 305.89 234.365 305.89 234.095V81.905C305.89 81.635 305.86 81.385 305.8 81.125ZM158.23 33.685L273.74 84.505L232.06 102.845L118.89 53.135L158.23 33.685ZM30.73 97.435L145.71 147.965V278.435L30.73 227.875V97.435ZM170.75 278.425V147.965L285.73 97.435V227.875L170.75 278.425Z"/>
+                    </svg>
+                </div>
+                <div class="nav-links">
+                    <a href="#" class="nav-link">Dashboard</a>
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="user-dropdown">
+                    <span th:text="${profile != null ? profile.nama : 'User'}">User</span>
+                    <form th:action="@{/logout}" method="post" style="display: inline;">
+                        <button type="submit" class="logout-btn">Log Out</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="max-w-7xl header-content">
+            <h2>Dashboard</h2>
+        </div>
+    </header>
+
+    <main class="max-w-7xl">
+        <div class="card">
+            <div class="card-body">
+                <div class="welcome-text">
+                    You're logged in! Welcome back, <strong th:text="${profile != null ? profile.nama : 'User'}">User</strong>.
+                </div>
+                
+                <div class="profile-info">
+                    <div class="info-group">
+                        <div class="info-label">Full Name</div>
+                        <div class="info-value" th:text="${profile != null ? profile.nama : '-'}">John Doe</div>
+                    </div>
+                    <div class="info-group">
+                        <div class="info-label">Username</div>
+                        <div class="info-value" th:text="${user != null ? user.username : '-'}">johndoe</div>
+                    </div>
+                    <div class="info-group" style="grid-column: 1 / -1;">
+                        <div class="info-label">Address</div>
+                        <div class="info-value" th:text="${profile != null ? profile.alamat : '-'}">123 Street</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
